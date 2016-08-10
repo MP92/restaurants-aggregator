@@ -5,6 +5,8 @@
  */
 class CityDao
 {
+    const DELETE_ALL_SQL = "DELETE FROM cities";
+    
     private $pdoConnection;
     
     private static $instance = null;
@@ -36,5 +38,12 @@ class CityDao
         }
         
         return $this->pdoConnection->lastInsertId();
+    }
+
+    public function deleteAll()
+    {
+        if (($stmt = $this->pdoConnection->query(self::DELETE_ALL_SQL)) === false) {
+            throw new Exception("Can't perform " . __METHOD__ . ".");
+        }
     }
 }

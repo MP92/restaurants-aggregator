@@ -16,6 +16,8 @@ class DishDao
                                 LEFT JOIN cities as c ON (r.city_id=c.id)";
 
     const SELECT_BY_ID_SQL = self::SELECT_ALL_SQL . " WHERE d.id = :id";
+    
+    const DELETE_ALL_SQL = "DELETE FROM dishes";
 
     const DEFAULT_LIMIT = 1000;
 
@@ -107,8 +109,8 @@ class DishDao
 
     private function getSql($criterionName, $criterionValue, $order)
     {
-        $criterionValue = $this->pdoConnection->quote($criterionValue);
-        $sql = self::SELECT_ALL_SQL . " WHERE $criterionName = $criterionValue";
+        $criterionValue = $this->pdoConnection->quote("%" . $criterionValue . "%");
+        $sql = self::SELECT_ALL_SQL . " WHERE $criterionName LIKE $criterionValue";
         if (($order == "price_asc") || ($order == "price_desc"))  {
             $sqlOrder = ($order == "price_desc") ? "DESC" : "ASC";
             $sql .= " ORDER BY LENGTH(SUBSTRING_INDEX(d.price, ' - ', 1)) $sqlOrder, d.price $sqlOrder";
@@ -128,5 +130,12 @@ class DishDao
             $dishList[] = Dish::createFromData($row);
         }
         return $dishList;
+    }
+    
+    public function deleteAll()
+    {
+        if (($stmt = $this->pdoConnection->query(self::DELETE_ALL_SQL)) === false) {
+            throw new Exception("Can't perform " . __METHOD__ . ".");
+        }
     }
 }

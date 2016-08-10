@@ -13,6 +13,8 @@ class RestaurantDao
                                 LEFT JOIN cities as c ON (r.city_id=c.id)
                                 WHERE r.id=:id";
 
+    const DELETE_ALL_SQL = "DELETE FROM restaurants";
+
     private $pdoConnection;
 
     private $insertStmt;
@@ -78,5 +80,12 @@ class RestaurantDao
             throw new Exception("Can't perform getById query in RestaurantDao for id=$id.");
         }
         return Restaurant::createFromData($this->selectByIdStmt->fetch(PDO::FETCH_ASSOC));
+    }
+
+    public function deleteAll()
+    {
+        if (($stmt = $this->pdoConnection->query(self::DELETE_ALL_SQL)) === false) {
+            throw new Exception("Can't perform " . __METHOD__ . ".");
+        }
     }
 }
