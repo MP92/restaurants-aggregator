@@ -1,0 +1,46 @@
+body {
+    font-family: Tahoma, Geneva, sans-serif;
+}
+.form-section {
+    padding: 0.5em;
+    border-bottom: 1px solid #7FDBFF;
+}
+form {
+    display: inline-block;
+    padding: 1em;
+}
+
+input[type="text"] {
+    width: 100%;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.delim {
+    background-color: #4CAF50;
+}
+
+.div-left {
+    float: left;
+}
+
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
