@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 <div class="clearfix">
-    <div class="div-left">
+    <div class="div-left div-relative">
         <form method="post">
             <fieldset>
                 <legend>Форма поиска</legend>
@@ -72,6 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </p>
                 <p><input type="submit" value="Поиск"></p>
             </fieldset>
+            <a class="btn" href="deleteAll.php?delete" onclick="return confirm('Вы уверены?')">Удалить все</a>
         </form>
     </div>
     <div class="div-left">

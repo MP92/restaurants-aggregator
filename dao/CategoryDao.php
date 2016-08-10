@@ -5,8 +5,10 @@
  */
 class CategoryDao
 {
-    const CATEGORY_SQL = "INSERT INTO dish_category(name) VALUES (:name)
+    const INSERT_SQL = "INSERT INTO dish_category(name) VALUES (:name)
                                   ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id)";
+
+    const DELETE_ALL_SQL = "DELETE FROM dish_category";
 
     private $pdoConnection;
 
@@ -18,7 +20,7 @@ class CategoryDao
     {
         $this->pdoConnection = Db::getConnection();
 
-        $this->categoryStmt = $this->pdoConnection->prepare(self::CATEGORY_SQL);
+        $this->categoryStmt = $this->pdoConnection->prepare(self::INSERT_SQL);
     }
 
     private function __clone()
@@ -41,5 +43,12 @@ class CategoryDao
         }
 
         return $this->pdoConnection->lastInsertId();
+    }
+
+    public function deleteAll()
+    {
+        if (($stmt = $this->pdoConnection->query(self::DELETE_ALL_SQL)) === false) {
+            throw new Exception("Can't perform " . __METHOD__ . ".");
+        }
     }
 }
